@@ -65,34 +65,6 @@ class Paddle {
     }
 }
 
-class Net {
-    constructor(x, y, width, height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-
-    draw() {
-        context.fillStyle = "#fff";
-        for (let i = 0; i < canvas.height; i += 15) {
-            context.fillRect(this.x, this.y + i, this.width, this.height);
-        }
-    }
-}
-
-class Score {
-    constructor(value) {
-        this.value = value;
-    }
-
-    draw(x, y) {
-        context.fillStyle = "#fff";
-        context.font = "45px Comfortaa";
-        context.fillText(this.value, x, y);
-    }
-}
-
 // Controle do jogador
 canvas.addEventListener("mousemove", movePaddle);
 
@@ -117,13 +89,10 @@ function collision(b, p) {
     return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
 }
 
-const ball = new Ball();
+let ball = new Ball();
 
-const player = new Paddle(5, (canvas.height - 100) / 2, 10, 100);
-const playerScore = new Score(player.score);
-const ai = new Paddle(canvas.width - 15, (canvas.height - 100) / 2, 10, 100);
-const aiScore = new Score(ai.score);
-
+let player = new Paddle(5, (canvas.height - 100) / 2, 10, 100);
+let ai = new Paddle(canvas.width - 15, (canvas.height - 100) / 2, 10, 100);
 
 function update() {
 
@@ -170,35 +139,35 @@ function update() {
         ball.speed += 0.5;
     }
 
+    draw();
 }
 
 // Renderiza o jogo
 function draw() {
-
+    
+    // Fundo do jogo
     context.fillStyle = "#000";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Linha central
     context.fillStyle = "#fff";
     for (let i = 0; i < canvas.height; i += 15) {
         context.fillRect((canvas.width - 2) / 2, 0 + i, 2, 10);
     }
 
+    // Desenha os objetos do jogo
     player.draw();
     ai.draw();
-
     ball.draw();
 
-    playerScore.draw(canvas.width / 4 - 15, canvas.height / 5);
-    aiScore.draw(3 * canvas.width / 4 - 15, canvas.height / 5);
+    // pontuação
+    context.fillStyle = "#fff";
+    context.font = "45px Comfortaa";
+    context.fillText(player.score, canvas.width / 4 - 15, canvas.height / 5);
+    context.fillText(ai.score, 3 * canvas.width / 4 - 15, canvas.height / 5);
 
-}
-
-// Inicializador do jogo
-function game() {
-    update();
-    draw();
 }
 
 // Loop
 const framePerSecond = 50;
-setInterval(game, 1000 / framePerSecond);
+game = setInterval(update, 1000 / framePerSecond);
