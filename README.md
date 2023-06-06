@@ -27,5 +27,5 @@ Despite its simplicity, Pong is a challenging game that requires quick reflexes 
 ## Preview 🔍
 
 <div align="center">
- <img src="PongGif.gif" />
+  <a href="#"><img src="PongGif.gif" /></a>
 </div>
